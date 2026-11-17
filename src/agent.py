@@ -14,13 +14,12 @@ from src.metrics import (
     get_unique_customers,
 )
 
-# Carrega as variáveis do arquivo .env
 load_dotenv()
 
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 OPENROUTER_MODEL = os.getenv("OPENROUTER_MODEL", "openrouter/free")
 
-# Mapeamento entre o nome da ferramenta e a função Python real
+# Nome da ferramenta -> função Python correspondente
 AVAILABLE_FUNCTIONS = {
     "get_total_revenue": get_total_revenue,
     "get_total_orders": get_total_orders,
@@ -31,7 +30,7 @@ AVAILABLE_FUNCTIONS = {
     "get_monthly_revenue": lambda category=None: get_monthly_revenue(category).to_dict(orient="records"),
 }
 
-# Descrição das ferramentas para o modelo de linguagem (JSON Schema)
+# Schema das ferramentas enviado ao modelo
 TOOLS_SCHEMA = [
     {
         "type": "function",
@@ -160,12 +159,9 @@ SYSTEM_PROMPT = (
 
 
 def ask_agent(user_question: str, chat_history: list[dict] | None = None) -> tuple[str, list[str]]:
-    """
-    Envia a pergunta ao OpenRouter, executa as ferramentas solicitadas e retorna
-    a resposta final junto com a lista de ferramentas utilizadas.
-    """
+    """Envia a pergunta ao modelo, executa as ferramentas pedidas e retorna a resposta e as ferramentas usadas."""
     if not OPENROUTER_API_KEY or OPENROUTER_API_KEY == "sua_chave_aqui":
-        return "⚠️ Configure sua chave OPENROUTER_API_KEY no arquivo .env antes de usar o chat.", []
+        return "Configure sua chave OPENROUTER_API_KEY no arquivo .env antes de usar o chat.", []
 
     client = OpenAI(
         base_url="https://openrouter.ai/api/v1",
@@ -180,7 +176,7 @@ def ask_agent(user_question: str, chat_history: list[dict] | None = None) -> tup
     tools_used = []
 
     try:
-        # 1ª chamada: o modelo analisa a pergunta e decide se precisa chamar ferramentas
+        # Primeira chamada: o modelo decide se aciona alguma ferramenta
         response = client.chat.completions.create(
             model=OPENROUTER_MODEL,
             messages=messages,
@@ -190,7 +186,6 @@ def ask_agent(user_question: str, chat_history: list[dict] | None = None) -> tup
 
         response_message = response.choices[0].message
 
-        # Se o modelo decidiu chamar uma ou mais ferramentas
         if response_message.tool_calls:
             messages.append(response_message)
 
@@ -204,7 +199,6 @@ def ask_agent(user_question: str, chat_history: list[dict] | None = None) -> tup
                 else:
                     result = {"erro": f"Ferramenta {func_name} não encontrada."}
 
-                # Devolve o resultado calculado pelo Python para o modelo
                 messages.append(
                     {
                         "role": "tool",
@@ -213,7 +207,7 @@ def ask_agent(user_question: str, chat_history: list[dict] | None = None) -> tup
                     }
                 )
 
-            # 2ª chamada: o modelo redige a resposta final usando os números calculados
+            # Segunda chamada: o modelo redige a resposta com os números retornados
             second_response = client.chat.completions.create(
                 model=OPENROUTER_MODEL,
                 messages=messages,
@@ -224,7 +218,7 @@ def ask_agent(user_question: str, chat_history: list[dict] | None = None) -> tup
 
     except Exception as e:
         return (
-            f"⚠️ Ocorreu uma instabilidade ao consultar o modelo gratuito no OpenRouter ({e}). "
+            f"Ocorreu uma instabilidade ao consultar o modelo gratuito no OpenRouter ({e}). "
             "Tente enviar a pergunta novamente em alguns segundos.",
             tools_used,
         )
