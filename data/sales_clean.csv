@@ -1,0 +1,25 @@
+order_id;order_date;customer_id;city;category;quantity;unit_price;status;revenue
+1001;2026-05-01;C001;São Paulo;Eletrônicos;1;1200,0;Concluído;1200,0
+1002;2026-01-05;C002;Rio de Janeiro;Acessórios;2;85,5;Concluído;171,0
+1003;2026-12-01;C003;Belo Horizonte;Móveis;1;650,0;Cancelado;650,0
+1004;2026-01-18;C004;Curitiba;Eletrônicos;1;1850,0;Concluído;1850,0
+1005;2026-03-02;C001;São Paulo;Acessórios;3;50,0;Concluído;150,0
+1006;2026-02-15;C005;Curitiba;Eletrônicos;1;2400,0;Concluído;2400,0
+1007;2026-02-20;C006;Porto Alegre;Escritório;4;120,0;Cancelado;480,0
+1008;2026-02-25;C002;Rio de Janeiro;Móveis;1;890,0;Concluído;890,0
+1009;2026-08-03;C002;Rio de Janeiro;Eletrônicos;1;980,0;Concluído;980,0
+1010;2026-03-14;C007;Salvador;Móveis;2;430,0;Concluído;860,0
+1011;2026-03-22;C008;São Paulo;Escritório;5;45,0;Concluído;225,0
+1012;2026-03-28;C001;São Paulo;Eletrônicos;1;1500,0;Cancelado;1500,0
+1013;2026-02-04;C003;Belo Horizonte;Eletrônicos;1;1500,0;Concluído;1500,0
+1014;2026-04-10;C009;Recife;Acessórios;4;75,0;Concluído;300,0
+1015;2026-04-19;C004;Curitiba;Móveis;1;1100,0;Concluído;1100,0
+1016;2026-04-27;C005;Curitiba;Escritório;2;180,0;Concluído;360,0
+1017;2026-04-05;C001;São Paulo;Eletrônicos;2;1350,0;Concluído;2700,0
+1018;2026-05-12;C010;Fortaleza;Acessórios;3;90,0;Concluído;270,0
+1019;2026-05-18;C006;Porto Alegre;Móveis;1;780,0;Cancelado;780,0
+1020;2026-05-25;C008;São Paulo;Escritório;6;55,0;Concluído;330,0
+1021;2026-03-06;C002;Rio de Janeiro;Eletrônicos;1;2100,0;Concluído;2100,0
+1022;2026-06-11;C007;Salvador;Acessórios;2;110,0;Concluído;220,0
+1023;2026-06-17;C003;Belo Horizonte;Escritório;3;140,0;Concluído;420,0
+1024;2026-06-24;C001;São Paulo;Móveis;1;950,0;Concluído;950,0
